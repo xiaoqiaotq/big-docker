@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget
 
 # install hadoop 2.7.2
 # RUN wget https://github.com/kiwenlau/compile-hadoop/releases/download/2.7.2/hadoop-2.7.2.tar.gz && \
-COPY misc/hadoop-2.7.2.tar.gz .
+COPY misc/hadoop-2.7.7.tar.gz .
 COPY misc/hbase-2.2.0-bin.tar.gz .
 COPY misc/apache-hive-2.3.5-bin.tar.gz .
 
