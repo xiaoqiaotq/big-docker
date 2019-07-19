@@ -23,8 +23,8 @@ RUN  tar -xzvf hbase-2.2.0-bin.tar.gz && \
     rm hbase-2.2.0-bin.tar.gz
 
 RUN  tar -xzvf apache-hive-2.3.5-bin.tar.gz && \
-    mv apache-hive-2.3.5-bin.tar.gz /usr/local/hive && \
-    rm hbase-2.2.0-bin.tar.gz
+    mv apache-hive-2.3.5-bin /usr/local/hive && \
+    rm apache-hive-2.3.5-bin.tar.gz
 
 # set environment variable
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
