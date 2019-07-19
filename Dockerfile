@@ -11,15 +11,28 @@ RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget
 # install hadoop 2.7.2
 # RUN wget https://github.com/kiwenlau/compile-hadoop/releases/download/2.7.2/hadoop-2.7.2.tar.gz && \
 COPY misc/hadoop-2.7.2.tar.gz .
+COPY misc/hbase-2.2.0-bin.tar.gz .
+COPY misc/apache-hive-2.3.5-bin.tar.gz .
 
 RUN  tar -xzvf hadoop-2.7.2.tar.gz && \
     mv hadoop-2.7.2 /usr/local/hadoop && \
     rm hadoop-2.7.2.tar.gz
 
+RUN  tar -xzvf hbase-2.2.0-bin.tar.gz && \
+    mv hbase-2.2.0 /usr/local/hbase && \
+    rm hbase-2.2.0-bin.tar.gz
+
+RUN  tar -xzvf apache-hive-2.3.5-bin.tar.gz && \
+    mv apache-hive-2.3.5-bin.tar.gz /usr/local/hive && \
+    rm hbase-2.2.0-bin.tar.gz
+
 # set environment variable
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_HOME=/usr/local/hadoop
-ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
+ENV HBASE_HOME=/usr/local/hbase
+ENV HIVE_HOME=/usr/local/hive
+ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin:$HBASE_HOME/bin:$HIVE_HOME/bin
+
 
 # ssh without key
 RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
@@ -31,7 +44,7 @@ RUN mkdir -p ~/hdfs/namenode && \
 
 COPY config/* /tmp/
 
-EXPOSE 50070 8088 19888 10002 60010 60030
+EXPOSE 50070 8088 19888 10002 16010 16030
 
 RUN mv /tmp/ssh_config ~/.ssh/config && \
     mv /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
@@ -41,7 +54,8 @@ RUN mv /tmp/ssh_config ~/.ssh/config && \
     mv /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
     mv /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
     mv /tmp/start-hadoop.sh ~/start-hadoop.sh && \
-    mv /tmp/run-wordcount.sh ~/run-wordcount.sh
+    mv /tmp/run-wordcount.sh ~/run-wordcount.sh && \
+    mv /tmp/hbase/* $HBASE_HOME/conf
 
 RUN chmod +x ~/start-hadoop.sh && \
     chmod +x ~/run-wordcount.sh && \
