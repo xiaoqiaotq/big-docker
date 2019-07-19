@@ -42,7 +42,7 @@ RUN mkdir -p ~/hdfs/namenode && \
     mkdir -p ~/hdfs/datanode && \
     mkdir $HADOOP_HOME/logs
 
-COPY config/* /tmp/
+COPY config/ /tmp/
 
 EXPOSE 50070 8088 19888 10002 16010 16030
 
