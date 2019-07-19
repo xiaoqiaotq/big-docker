@@ -5,5 +5,6 @@
 4. jdk 升到8 
 
 `
+git clone https://github.com/xiaoqiaotq/hadoop-cluster-docker
 docker build -t kiwenlau/hadoop:1.0
 `
