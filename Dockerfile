@@ -14,9 +14,9 @@ COPY misc/hadoop-2.7.2.tar.gz .
 COPY misc/hbase-2.2.0-bin.tar.gz .
 COPY misc/apache-hive-2.3.5-bin.tar.gz .
 
-RUN  tar -xzvf hadoop-2.7.2.tar.gz && \
-    mv hadoop-2.7.2 /usr/local/hadoop && \
-    rm hadoop-2.7.2.tar.gz
+RUN  tar -xzvf hadoop-2.7.7.tar.gz && \
+    mv hadoop-2.7.7 /usr/local/hadoop && \
+    rm hadoop-2.7.7.tar.gz
 
 RUN  tar -xzvf hbase-2.2.0-bin.tar.gz && \
     mv hbase-2.2.0 /usr/local/hbase && \
