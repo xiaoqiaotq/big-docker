@@ -4,7 +4,14 @@
 3. hadoop slaves 也写死了
 4. jdk 升到8 
 
+
+####打包镜像
 `
 git clone https://github.com/xiaoqiaotq/hadoop-cluster-docker
 docker build -t xiaoqiaotq/hadoop:1.0 .
+`
+
+#### swarm运行
+`
+docker  -f docker-compose.yml  stack deploy hadoop
 `
