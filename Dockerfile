@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-MAINTAINER KiwenLau <kiwenlau@gmail.com>
+MAINTAINER xiaoqiaotq <xiaoqiaotq@gmail.com>
 
 WORKDIR /root
 RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
