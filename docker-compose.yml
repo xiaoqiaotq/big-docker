@@ -16,50 +16,43 @@
 # under the License.
 version: "3"
 
-networks:
-  hadoop-overlay:
-    driver: overlay
 services:
   hadoop-master:
     image: xiaoqiaotq/hadoop:1.0
     ports:
       - "50070:50070"
       - "8088:8088"
-      - "8088:8088"
       - "16010:16010"
       - "10002:10002"
     networks:
-      - hadoop-overlay
+      - zk_hadoop
     deploy:
       placement:
         constraints: [node.role == manager]
   hadoop-slave1:
     image: xiaoqiaotq/hadoop:1.0
     ports:
-      - "2181:2181"
-      - "16030:16030"
+#      - "16030:16030"
     networks:
-      - hadoop-overlay
+      - zk_hadoop
     deploy:
       placement:
         constraints: [node.hostname == slave1]
   hadoop-slave2:
     image: xiaoqiaotq/hadoop:1.0
     ports:
-      - "2181:2181"
-      - "16030:16030"
+#      - "16030:16030"
     networks:
-      - hadoop-overlay
+      - zk_hadoop
     deploy:
       placement:
         constraints: [node.hostname == slave2]
   hadoop-slave3:
     image: xiaoqiaotq/hadoop:1.0
     ports:
-      - "2181:2181"
-      - "16030:16030"
+#      - "16030:16030"
     networks:
-      - hadoop-overlay
+      - zk_hadoop
     deploy:
       placement:
         constraints: [node.hostname == slave4]

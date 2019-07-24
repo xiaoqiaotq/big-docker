@@ -33,7 +33,7 @@
 
         <property>
             <name>hbase.zookeeper.quorum</name>
-            <value>hadoop-slave1,hadoop-slave2,hadoop-slave3</value>
+            <value>zoo1:2181,zoo2:2181,zoo3:2181</value>
         </property>
         <property>
             <name>hbase.zookeeper.property.dataDir</name>
