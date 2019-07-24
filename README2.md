@@ -8,7 +8,9 @@
 ####打包镜像
 `
 git clone https://github.com/xiaoqiaotq/hadoop-cluster-docker
+cd hadoop-cluster-docker
 docker build -t xiaoqiaotq/hadoop:1.0 .
+./start-container.sh
 `
 
 #### swarm运行

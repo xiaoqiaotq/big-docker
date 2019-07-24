@@ -8,7 +8,7 @@ N=${1:-3}
 sudo docker rm -f hadoop-master &> /dev/null
 echo "start hadoop-master container..."
 sudo docker run -itd \
-                --net=hadoop \
+                --net=zk_hadoop \
                 -p 50070:50070 \
                 -p 8088:8088 \
                 -p 16010:16010 \
@@ -25,8 +25,7 @@ do
 	sudo docker rm -f hadoop-slave$i &> /dev/null
 	echo "start hadoop-slave$i container..."
 	sudo docker run -itd \
-	                --net=hadoop \
-                    -p 16030:16030 \
+	                --net=zk_hadoop \
 	                --name hadoop-slave$i \
 	                --hostname hadoop-slave$i \
 	                xiaoqiaotq/hadoop:1.0 &> /dev/null
