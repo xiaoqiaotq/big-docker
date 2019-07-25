@@ -9,7 +9,9 @@
 `
 git clone https://github.com/xiaoqiaotq/hadoop-cluster-docker
 cd hadoop-cluster-docker
+cp aa.tar.gz misc 
 docker build -t xiaoqiaotq/hadoop:1.0 .
+docker network create --driver=bridge hadoop
 ./start-container.sh 4
 `
 
