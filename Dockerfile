@@ -65,5 +65,5 @@ RUN chmod +x ~/start-hadoop.sh && \
 # format namenode
 RUN /usr/local/hadoop/bin/hdfs namenode -format
 
-CMD [ "sh", "-c", "service ssh start && tail -f /dev/null"]
+CMD [ "sh", "-c", "service ssh start && echo 'hadoop is started' && tail -f /dev/null"]
 
