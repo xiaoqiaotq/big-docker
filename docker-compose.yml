@@ -20,12 +20,12 @@ services:
   hadoop-master:
     image: xiaoqiaotq/hadoop:1.0
     ports:
-      - "50070:50070"
-      - "8088:8088"
-      - "16010:16010"
-      - "10002:10002"
+#      - "50070:50070"
+#      - "8088:8088"
+#      - "16010:16010"
+#      - "10002:10002"
     networks:
-      - zk_hadoop
+      - outside
     deploy:
       placement:
         constraints: [node.role == manager]
@@ -34,7 +34,7 @@ services:
     ports:
 #      - "16030:16030"
     networks:
-      - zk_hadoop
+      - outside
     deploy:
       placement:
         constraints: [node.hostname == slave1]
@@ -43,7 +43,7 @@ services:
     ports:
 #      - "16030:16030"
     networks:
-      - zk_hadoop
+      - outside
     deploy:
       placement:
         constraints: [node.hostname == slave2]
@@ -52,7 +52,12 @@ services:
     ports:
 #      - "16030:16030"
     networks:
-      - zk_hadoop
+      - outside
     deploy:
       placement:
         constraints: [node.hostname == slave4]
+
+networks:
+  outside:
+    external:
+      name: "host"
