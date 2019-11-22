@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget
 COPY misc/hadoop-2.7.7.tar.gz .
 COPY misc/hbase-2.2.0-bin.tar.gz .
 COPY misc/apache-hive-2.3.5-bin.tar.gz .
+COPY misc/spark-2.4.4-bin-hadoop2.7.tgz .
 
 RUN  tar -xzvf hadoop-2.7.7.tar.gz && \
     mv hadoop-2.7.7 /usr/local/hadoop && \
@@ -26,12 +27,17 @@ RUN  tar -xzvf apache-hive-2.3.5-bin.tar.gz && \
     mv apache-hive-2.3.5-bin /usr/local/hive && \
     rm apache-hive-2.3.5-bin.tar.gz
 
+RUN  tar -xzvf spark-2.4.4-bin-hadoop2.7.tgz && \
+    mv spark-2.4.4-bin-hadoop2.7 /usr/local/spark && \
+    rm spark-2.4.4-bin-hadoop2.7.tgz
+
 # set environment variable
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV HBASE_HOME=/usr/local/hbase
 ENV HIVE_HOME=/usr/local/hive
-ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin:$HBASE_HOME/bin:$HIVE_HOME/bin
+ENV SPARK_HOME=/usr/local/spark
+ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin:$HBASE_HOME/bin:$HIVE_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin
 
 
 # ssh without key
@@ -46,18 +52,22 @@ COPY config/ /tmp/
 
 EXPOSE 50070 8088 19888 10002 16010 16030
 
-RUN mv /tmp/ssh_config ~/.ssh/config && \
-    mv /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
-    mv /tmp/hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml && \
-    mv /tmp/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml && \
-    mv /tmp/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml && \
-    mv /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
-    mv /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
-    mv /tmp/start-hadoop.sh ~/start-hadoop.sh && \
-    mv /tmp/run-wordcount.sh ~/run-wordcount.sh && \
-    mv /tmp/hbase/* $HBASE_HOME/conf && \
-    mv /tmp/hive/hive-site.xml $HIVE_HOME/conf && \
-    mv /tmp/hive/mysql-connector-java.jar $HIVE_HOME/lib
+RUN cp /tmp/ssh_config ~/.ssh/config && \
+    cp /tmp/hadoop-env.sh /usr/local/hadoop/etc/hadoop/hadoop-env.sh && \
+    cp /tmp/hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml && \
+    cp /tmp/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml && \
+    cp /tmp/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml && \
+    cp /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
+    cp /tmp/slaves $HADOOP_HOME/etc/hadoop/slaves && \
+    cp /tmp/start-hadoop.sh ~/start-hadoop.sh && \
+    cp /tmp/run-wordcount.sh ~/run-wordcount.sh && \
+    cp /tmp/hbase/* $HBASE_HOME/conf && \
+    cp /tmp/hive/hive-site.xml $HIVE_HOME/conf && \
+    cp /tmp/hive/mysql-connector-java.jar $HIVE_HOME/lib && \
+    cp /tmp/hive/hive-site.xml $SPARK_HOME/conf && \
+    cp /tmp/hdfs-site.xml $SPARK_HOME/conf && \
+    cp /tmp/core-site.xml $SPARK_HOME/conf && \
+    cp /tmp/hive/mysql-connector-java.jar $SPARK_HOME/jars
 
 RUN chmod +x ~/start-hadoop.sh && \
     chmod +x ~/run-wordcount.sh && \
@@ -65,7 +75,7 @@ RUN chmod +x ~/start-hadoop.sh && \
     chmod +x $HADOOP_HOME/sbin/start-yarn.sh
 
 # format namenode
-RUN /usr/local/hadoop/bin/hdfs namenode -format
+#RUN /usr/local/hadoop/bin/hdfs namenode -format
 
 CMD [ "sh", "-c", "service ssh start && echo 'hadoop is started' && tail -f /dev/null"]
 

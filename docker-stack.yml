@@ -13,16 +13,20 @@ services:
       - { published: 10002, target: 10002, mode: host } #hiveserver2 ui
       - { published: 9083, target: 9083, mode: host } # hive meta store
       - { published: 19888, target: 19888, mode: host }
+      - { published: 8080, target: 8080, mode: host } # spark master ui
+      - { published: 8081, target: 8081, mode: host } # spark worker ui
+      - { published: 4040, target: 4040, mode: host } # spark job detail
     deploy:
       placement:
         constraints: [node.role == manager]
+    volumes:
+      - hdfs:/root/hdfs/
 #  hadoop-slave:
 #    image: xiaoqiaotq/hadoop:0.1
 #    ports:
 #      - { published: 16030, target: 16030, mode: host }
   mysql:
     image: mysql:5.7
-    restart: always
     environment:
       MYSQL_DATABASE: 'hive'
       # So you don't have to use root, but you can if you like
@@ -34,3 +38,8 @@ services:
     ports:
       # <Port exposed> : < MySQL Port running inside container>
       - '3306:3306'
+    volumes:
+      - mysql:/var/lib/mysql
+volumes:
+  mysql:
+  hdfs:
