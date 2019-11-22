@@ -55,7 +55,7 @@ services:
       - outside
     deploy:
       placement:
-        constraints: [node.hostname == slave4]
+        constraints: [node.hostname == slave3]
 
 networks:
   outside:

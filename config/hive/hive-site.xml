@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<configuration>
+<!--    <property>-->
+<!--        <name>hive.metastore.warehouse.dir</name>-->
+<!--        &lt;!&ndash;之前hdfs中创建的warehouse文件夹&ndash;&gt;-->
+<!--        <value>/hive/warehouse</value>-->
+<!--        <description>location of default database for the warehouse</description>-->
+<!--    </property>-->
+    <property>
+        <name>hive.server2.enable.doAs</name>
+        <value>FALSE</value>
+        <description>
+            Setting this property to true will have HiveServer2 execute
+            Hive operations as the user making the calls to it.
+        </description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <!--这里的hive就是刚才建立的metastore数据库名字-->
+        <value>jdbc:mysql://mysql/hive?createDatabaseIfNotExist=true&amp;useSSL=false</value>
+        <description>metadata is stored in a MySQL server</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>com.mysql.jdbc.Driver</value>
+        <description>MySQL JDBC driver class</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <!--刚才建的mysql用户-->
+        <value>hive</value>
+        <description>user name for connecting to mysql server</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <!--刚才建的mysql用户的密码-->
+        <value>hive</value>
+        <description>password for connecting to mysql server</description>
+    </property>
+<!--    <property>-->
+<!--        <name>hive.exec.scratchdir</name>-->
+<!--        &lt;!&ndash;之前在hdfs中建的tmp文件夹&ndash;&gt;-->
+<!--        <value>/tmp/hive</value>-->
+<!--        <description>HDFS root scratch dir for Hive jobs which gets created with write all (733) permission. For each connecting user, an HDFS scratch dir: ${hive.exec.scratchdir}/<username> is created, with ${hive.scratch.dir.permission}.</description>-->
+<!--    </property>-->
+
+<!--    &lt;!&ndash;以下5个属性在default文件中都是通过${system:java.io.tmpdir}/${system:user.name}定义的,改成自己在hive目录下建的iotmp&ndash;&gt;-->
+<!--    <property>-->
+<!--        <name>hive.querylog.location</name>-->
+<!--        <value>/home/whm/apache-hive-2.1.0-bin/iotmp/querylog</value>-->
+<!--        <description>Location of Hive run time structured log file</description>-->
+<!--    </property>-->
+<!--    <property>-->
+<!--        <name>hive.server2.logging.operation.log.location</name>-->
+<!--        <value>/home/whm/apache-hive-2.1.0-bin/iotmp/operation_logs</value>-->
+<!--        <description>Top level directory where operation logs are stored if logging functionality is enabled</description>-->
+<!--    </property>-->
+<!--    <property>-->
+<!--        <name>hive.server2.logging.operation.log.location</name>-->
+<!--        <value>/home/whm/apache-hive-2.1.0-bin/iotmp/operation_logs</value>-->
+<!--        <description>Top level directory where operation logs are stored if logging functionality is enabled</description>-->
+<!--    </property>-->
+<!--    <property>-->
+<!--        <name>hive.downloaded.resources.dir</name>-->
+<!--        <value>/home/whm/apache-hive-2.1.0-bin/iotmp/resource_dir</value>-->
+<!--        <description>Temporary local directory for added resources in the remote file system.</description>-->
+<!--    </property>-->
+<!--    <property>-->
+<!--        <name>hive.exec.local.scratchdir</name>-->
+<!--        <value>/home/whm/apache-hive-2.1.0-bin/iotmp/scratchdir</value>-->
+<!--        <description>Local scratch space for Hive jobs</description>-->
+<!--    </property>-->
+</configuration>
