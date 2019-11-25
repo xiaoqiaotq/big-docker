@@ -16,6 +16,7 @@ services:
       - { published: 8080, target: 8080, mode: host } # spark master ui
       - { published: 8081, target: 8081, mode: host } # spark worker ui
       - { published: 4040, target: 4040, mode: host } # spark job detail
+      - { published: 18080, target: 18080, mode: host } # spark history job
     deploy:
       placement:
         constraints: [node.role == manager]
