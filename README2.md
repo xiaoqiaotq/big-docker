@@ -11,11 +11,19 @@ git clone https://github.com/xiaoqiaotq/hadoop-cluster-docker
 cd hadoop-cluster-docker
 cp aa.tar.gz misc 
 docker build -t xiaoqiaotq/hadoop:1.0 .
-// docker network create --driver=bridge hadoop
-./start-container.sh 4
+
+
 ```
 
 #### swarm运行
 `
 docker  -f docker-compose.yml  stack deploy hadoop
+docker exec -it hadoop
+# 进入容器后
+hdfs namenode -format
+hadoop-daemon.sh start namenode
+hadoop-daemon.sh start datanode
+yarn-daemon.sh start resourcemanager
+yarn-daemon.sh start nodemanager
+
 `

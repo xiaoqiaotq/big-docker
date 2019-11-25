@@ -20,4 +20,8 @@
         <name>yarn.log-aggregation-enable</name>
         <value>true</value>
     </property>
+    <property>
+        <name>yarn.log.server.url</name>
+        <value>http://hadoop-master:19888/jobhistory/logs</value>
+    </property>
 </configuration>

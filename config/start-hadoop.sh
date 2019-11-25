@@ -1,12 +1,7 @@
 #!/bin/bash
 
-echo -e "\n"
-
-$HADOOP_HOME/sbin/start-dfs.sh
-
-echo -e "\n"
-
-$HADOOP_HOME/sbin/start-yarn.sh
-
-echo -e "\n"
+hadoop-daemon.sh start namenode
+hadoop-daemon.sh start datanode
+yarn-daemon.sh start resourcemanager
+yarn-daemon.sh start nodemanager
 
