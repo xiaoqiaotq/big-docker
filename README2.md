@@ -10,17 +10,18 @@
 git clone https://github.com/xiaoqiaotq/hadoop-cluster-docker
 cd hadoop-cluster-docker
 cp aa.tar.gz misc 
-docker build -t xiaoqiaotq/hadoop:1.0 .
+docker build -t xiaoqiaotq/hadoop:0.2 .
 
 
 ```
 
 #### swarm运行
 `
-docker  -f docker-compose.yml  stack deploy hadoop
+docker  -f docker-stack.yml  stack deploy ha
 docker exec -it hadoop
 # 进入容器后
-hdfs namenode -format
+
+hdfs namenode -format # 仅执行一次
 hadoop-daemon.sh start namenode
 hadoop-daemon.sh start datanode
 yarn-daemon.sh start resourcemanager

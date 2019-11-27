@@ -4,16 +4,14 @@ MAINTAINER xiaoqiaotq <xiaoqiaotq@gmail.com>
 
 WORKDIR /root
 RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
+RUN sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
 # install openssh-server, openjdk and wget
-RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget net-tools  iputils-ping vim
+RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget net-tools  iputils-ping vim unzip
 
 # install hadoop 2.7.2
 # RUN wget https://github.com/kiwenlau/compile-hadoop/releases/download/2.7.2/hadoop-2.7.2.tar.gz && \
-COPY misc/hadoop-2.7.7.tar.gz .
-COPY misc/hbase-2.2.0-bin.tar.gz .
-COPY misc/apache-hive-2.3.5-bin.tar.gz .
-COPY misc/spark-2.4.4-bin-hadoop2.7.tgz .
+COPY misc/* ./
 
 RUN  tar -xzvf hadoop-2.7.7.tar.gz && \
     mv hadoop-2.7.7 /usr/local/hadoop && \
@@ -31,13 +29,18 @@ RUN  tar -xzvf spark-2.4.4-bin-hadoop2.7.tgz && \
     mv spark-2.4.4-bin-hadoop2.7 /usr/local/spark && \
     rm spark-2.4.4-bin-hadoop2.7.tgz
 
+RUN unzip  apache-livy-0.6.0-incubating-bin.zip -d . && \
+    mv apache-livy-0.6.0-incubating-bin /usr/local/livy && \
+    rm apache-livy-0.6.0-incubating-bin.zip
+
 # set environment variable
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 ENV HADOOP_HOME=/usr/local/hadoop
 ENV HBASE_HOME=/usr/local/hbase
 ENV HIVE_HOME=/usr/local/hive
 ENV SPARK_HOME=/usr/local/spark
-ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin:$HBASE_HOME/bin:$HIVE_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin
+ENV LIVY_HOME=/usr/local/livy
+ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin:$HBASE_HOME/bin:$HIVE_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin:$LIVY_HOME/bin
 
 
 # ssh without key
@@ -67,6 +70,7 @@ RUN cp /tmp/ssh_config ~/.ssh/config && \
     cp /tmp/hive/hive-site.xml $SPARK_HOME/conf && \
     cp /tmp/hdfs-site.xml $SPARK_HOME/conf && \
     cp /tmp/core-site.xml $SPARK_HOME/conf && \
+    cp /tmp/spark/* $SPARK_HOME/conf && \
     cp /tmp/hive/mysql-connector-java.jar $SPARK_HOME/jars
 
 RUN chmod +x ~/start-hadoop.sh && \

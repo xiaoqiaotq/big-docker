@@ -7,8 +7,10 @@ services:
     ports:
       - { published: 9000, target: 9000, mode: host } # hdfs
       - { published: 50070, target: 50070, mode: host } # namenode ui
+      - { published: 50075, target: 50075, mode: host } #datanode http ui
+      - { published: 50010, target: 50010, mode: host } #datanode address
+      - { published: 50020, target: 50020, mode: host } #datanode ipc.address
       - { published: 8088, target: 8088, mode: host }  # resourcemanager ui
-      - { published: 50075, target: 50075, mode: host } #datanode ui
       - { published: 8042, target: 8042, mode: host }  #nodemanager ui
       - { published: 16010, target: 16010, mode: host }
       - { published: 10002, target: 10002, mode: host } #hiveserver2 ui
@@ -19,15 +21,31 @@ services:
       - { published: 8081, target: 8081, mode: host } # spark worker ui
       - { published: 4040, target: 4040, mode: host } # spark job detail
       - { published: 18080, target: 18080, mode: host } # spark history job
+      - { published: 8998, target: 8998, mode: host } # spark livy
     deploy:
       placement:
         constraints: [node.role == manager]
     volumes:
       - hdfs:/root/hdfs/
-#  hadoop-slave:
-#    image: xiaoqiaotq/hadoop:0.1
-#    ports:
-#      - { published: 16030, target: 16030, mode: host }
+  hadoop-slave:
+    image: xiaoqiaotq/hadoop:0.2
+    ports:
+      - { published: 9000, target: 9000, mode: host } # hdfs
+      - { published: 50070, target: 50070, mode: host } # namenode ui
+      - { published: 50075, target: 50075, mode: host } #datanode http ui
+      - { published: 50010, target: 50010, mode: host } #datanode address
+      - { published: 50020, target: 50020, mode: host } #datanode ipc.address
+      - { published: 8088, target: 8088, mode: host }  # resourcemanager ui
+      - { published: 8042, target: 8042, mode: host }  #nodemanager ui
+      - { published: 16010, target: 16010, mode: host }
+      - { published: 10002, target: 10002, mode: host } #hiveserver2 ui
+      - { published: 9083, target: 9083, mode: host } # hive meta store
+      - { published: 19888, target: 19888, mode: host } # map reduce history server
+      - { published: 7077, target: 7077, mode: host } # spark master
+      - { published: 8080, target: 8080, mode: host } # spark master ui
+      - { published: 8081, target: 8081, mode: host } # spark worker ui
+      - { published: 4040, target: 4040, mode: host } # spark job detail
+      - { published: 18080, target: 18080, mode: host } # spark history job
   mysql:
     image: mysql:5.7
     environment:
