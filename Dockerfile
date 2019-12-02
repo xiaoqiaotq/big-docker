@@ -7,7 +7,7 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 RUN sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
 # install openssh-server, openjdk and wget
-RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget net-tools  iputils-ping vim unzip
+RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget net-tools  iputils-ping vim unzip lrzsz netcat
 
 # install hadoop 2.7.2
 # RUN wget https://github.com/kiwenlau/compile-hadoop/releases/download/2.7.2/hadoop-2.7.2.tar.gz && \
@@ -70,6 +70,7 @@ RUN cp /tmp/ssh_config ~/.ssh/config && \
     cp /tmp/hive/hive-site.xml $SPARK_HOME/conf && \
     cp /tmp/hdfs-site.xml $SPARK_HOME/conf && \
     cp /tmp/core-site.xml $SPARK_HOME/conf && \
+    mv /tmp/spark/*.jar $SPARK_HOME/jars/  && \
     cp /tmp/spark/* $SPARK_HOME/conf && \
     cp /tmp/hive/mysql-connector-java.jar $SPARK_HOME/jars
 

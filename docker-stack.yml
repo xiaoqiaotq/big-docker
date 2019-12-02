@@ -11,6 +11,10 @@ services:
       - { published: 50010, target: 50010, mode: host } #datanode address
       - { published: 50020, target: 50020, mode: host } #datanode ipc.address
       - { published: 8088, target: 8088, mode: host }  # resourcemanager ui
+      - { published: 8030, target: 8030, mode: host }  # resourcemanager
+      - { published: 8031, target: 8031, mode: host }  # resourcemanager
+      - { published: 8032, target: 8032, mode: host }  # resourcemanager
+      - { published: 8033, target: 8033, mode: host }  # resourcemanager
       - { published: 8042, target: 8042, mode: host }  #nodemanager ui
       - { published: 16010, target: 16010, mode: host }
       - { published: 10002, target: 10002, mode: host } #hiveserver2 ui
@@ -25,8 +29,6 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
-    volumes:
-      - hdfs:/root/hdfs/
   hadoop-slave:
     image: xiaoqiaotq/hadoop:0.2
     ports:
@@ -46,6 +48,10 @@ services:
       - { published: 8081, target: 8081, mode: host } # spark worker ui
       - { published: 4040, target: 4040, mode: host } # spark job detail
       - { published: 18080, target: 18080, mode: host } # spark history job
+      - { published: 8998, target: 8998, mode: host } # spark livy
+    deploy:
+      placement:
+        constraints: [node.role != manager]
   mysql:
     image: mysql:5.7
     environment:
@@ -61,6 +67,8 @@ services:
       - '3306:3306'
     volumes:
       - mysql:/var/lib/mysql
+    deploy:
+      placement:
+        constraints: [node.role == manager]
 volumes:
   mysql:
-  hdfs:
