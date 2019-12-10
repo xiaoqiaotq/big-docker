@@ -7,7 +7,7 @@ RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 RUN sed -i 's/security.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
 # install openssh-server, openjdk and wget
-RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget net-tools  iputils-ping vim unzip lrzsz netcat
+RUN apt-get update && apt-get install -y openssh-server openjdk-8-jdk wget net-tools  iputils-ping vim unzip lrzsz netcat-openbsd
 
 # install hadoop 2.7.2
 # RUN wget https://github.com/kiwenlau/compile-hadoop/releases/download/2.7.2/hadoop-2.7.2.tar.gz && \
@@ -41,7 +41,7 @@ ENV HIVE_HOME=/usr/local/hive
 ENV SPARK_HOME=/usr/local/spark
 ENV LIVY_HOME=/usr/local/livy
 ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin:$HBASE_HOME/bin:$HIVE_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin:$LIVY_HOME/bin
-
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
 
 # ssh without key
 RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
